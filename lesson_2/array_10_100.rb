@@ -1,9 +1,7 @@
 arr = []
 
 for int in 10..100 do
-  if int % 5 == 0
-    arr << int
-  end
+  arr << int if int % 5 == 0
 end
 
 puts arr.to_s

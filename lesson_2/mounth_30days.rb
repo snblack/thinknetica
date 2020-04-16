@@ -13,8 +13,6 @@ mounth_with_days = {
   december: 31
 }
 
-mounth_with_days.each do |key, val|
-  if val == 30
-    puts "#{key}: #{val}"
-  end
+mounth_with_days.each do |mounth, day|
+  puts "#{mounth}: #{day}" if day == 30
 end

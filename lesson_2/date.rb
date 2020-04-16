@@ -24,9 +24,7 @@ mounth_with_days = {
 }
 
 # меняем значения февраля, если год высокосный
-if year % 400 == 0
-  mounth_with_days[:february] = 29
-elsif year % 4 == 0 and year % 100 != 0
+if year % 400 == 0 || year % 4 == 0 and year % 100 != 0
   mounth_with_days[:february] = 29
 end
 
