@@ -5,7 +5,7 @@ num = 1
 hash = {}
 
 nowels.each_with_index do |nowel, i|
-  hash[nowel] = i
+  hash[nowel] = i + 1
 end
 
 puts hash
