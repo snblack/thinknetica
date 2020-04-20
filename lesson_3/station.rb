@@ -1,4 +1,4 @@
-require "./train_class.rb"
+require "./train.rb"
 
 class Station < Train
 
@@ -29,7 +29,7 @@ class Station < Train
   # Может отправлять поезда (по одному за раз, при этом,
   # поезд удаляется из списка поездов, находящихся на станции).
   def send(train)
-    train.moving('forward')
     @list_train.delete(train.num)
   end
+
 end

@@ -19,18 +19,12 @@ class Route
   end
 
   def route
-    @route = []
-    @route << @from
-    @inter_stations.each do |station|
-      @route << station
-    end
-    @route << @to
-    return @route
+    @route = [@from, *@inner_stations, @to]
+    @route
   end
 
 # Может выводить список всех станций по-порядку от начальной до конечной
   def print_all_station
-    route
-    print @route
+    print route
   end
 end

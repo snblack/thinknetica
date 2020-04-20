@@ -1,9 +1,9 @@
-require "./route_class.rb"
+require "./route.rb"
 
 class Train < Route
   # Имеет номер (произвольная строка) и тип (грузовой, пассажирский) и
   # количество вагонов, эти данные указываются при создании экземпляра класса
-  attr_reader :num, :type
+  attr_reader :num, :type, :speed, :wagons
 
   def initialize(num, type, wagons)
     @num = num
@@ -17,19 +17,9 @@ class Train < Route
     @speed += speed
   end
 
-  # Может возвращать текущую скорость
-  def current_speed
-    puts @speed
-  end
-
   # Может тормозить (сбрасывать скорость до нуля)
   def to_brake
     @speed = 0
-  end
-
-  # Может возвращать количество вагонов
-  def wagons
-    puts @wagons
   end
 
   # Может прицеплять/отцеплять вагоны (по одному вагону за операцию,
@@ -37,10 +27,17 @@ class Train < Route
   # Прицепка/отцепка вагонов может осуществляться только если поезд
   # не движется.
 
-  def change_wagons(value)
+  def add_wagons
     if @speed == 0
-      @wagons += 1 if value == 'add'
-      @wagons -= 1 if value == 'del'
+      @wagons += 1
+    else
+      puts 'Поезд находится в движении'
+    end
+  end
+
+  def del_wagons
+    if @speed == 0
+      @wagons -= 1
     else
       puts 'Поезд находится в движении'
     end
@@ -56,11 +53,18 @@ class Train < Route
     @current_station = @route_train[@num_station]
   end
 
+
   # Может перемещаться между станциями, указанными в маршруте.
   # Перемещение возможно вперед и назад, но только на 1 станцию за раз.
-  def moving(direct)
-    @num_station += 1 if direct == 'forward'
-    @num_station -= 1 if direct == 'backward'
+  def moving_forward
+    @num_station += 1
+    @current_station = @route_train[@num_station]
+    @prev_station = @route_train[@num_station-1]
+    @next_station = @route_train[@num_station+1]
+  end
+
+  def moving_backward
+    @num_station -= 1
     @current_station = @route_train[@num_station]
     @prev_station = @route_train[@num_station-1]
     @next_station = @route_train[@num_station+1]
