@@ -1,3 +1,5 @@
+require "./station.rb"
+
 class Route
 
 # Имеет начальную и конечную станцию, а также список промежуточных станций.
@@ -18,13 +20,13 @@ class Route
     @inter_stations.delete(inter_stations){'Станция не найдена'}
   end
 
-  def route
-    @route = [@from, *@inner_stations, @to]
-    @route
+  def stations
+    @stations = [@from, *@inter_stations, @to]
+    @stations
   end
 
 # Может выводить список всех станций по-порядку от начальной до конечной
   def print_all_station
-    print route
+    @stations.each { |station| puts station.name_station }
   end
 end

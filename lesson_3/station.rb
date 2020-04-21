@@ -2,6 +2,8 @@ require "./train.rb"
 
 class Station < Train
 
+attr_reader :list_trains, :name_station
+
   # Имеет название, которое указывается при ее создании
   def initialize(name)
     @name_station = name
@@ -9,27 +11,22 @@ class Station < Train
 
   # Может принимать поезда (по одному за раз)
   def take_train(obj_train)
-      @list_train = {}
-      @list_train[obj_train.num] = obj_train.type
+    @list_trains = []
+    @list_trains << obj_train
   end
 
-  # Может возвращать список всех поездов на станции, находящиеся в
-  # текущий момент
-  def list_train
-    puts @list_train.keys
-  end
 
   # Может возвращать список поездов на станции по типу
   # кол-во грузовых, пассажирских
-  def list_train_by_type
-    puts "Грузовых поездов: #{@list_train.select{ |num, type| type == 'Грузовой'}.count}"
-    puts "Пассажирских поездов: #{@list_train.select{ |num, type| type == 'Пассажирский'}.count}"
+  def list_trains_by_type
+    puts "Грузовых поездов: #{@list_trains.select{ |train| train.type == 'Грузовой'}.count}"
+    puts "Пассажирских поездов: #{@list_trains.select{ |train| train.type == 'Пассажирский'}.count}"
   end
 
   # Может отправлять поезда (по одному за раз, при этом,
   # поезд удаляется из списка поездов, находящихся на станции).
   def send(train)
-    @list_train.delete(train.num)
+    @list_trains.delete(train)
   end
 
 end

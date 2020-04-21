@@ -47,33 +47,40 @@ class Train < Route
   # При назначении маршрута поезду, поезд автоматически помещается
   # на первую станцию в маршруте.
 
-  def route_train(route_obj)
-    @route_train = route_obj.route
-    @num_station = 0
-    @current_station = @route_train[@num_station]
+  def current_station(route_obj)
+    @route = route_obj
+    # вернет текущую станцию
+    @current_station = @route.stations.find { |station| station.list_trains.include?(self) }
+    @current_station
   end
 
+  def current_station_index
+    @current_station_index = @route.stations.index(@current_station)
+    @current_station_index
+  end
 
   # Может перемещаться между станциями, указанными в маршруте.
   # Перемещение возможно вперед и назад, но только на 1 станцию за раз.
   def moving_forward
-    @num_station += 1
-    @current_station = @route_train[@num_station]
-    @prev_station = @route_train[@num_station-1]
-    @next_station = @route_train[@num_station+1]
+    @current_station.send(self)
+    @route.stations[current_station_index + 1].take_train(self)
+    current_station(@route)
   end
 
   def moving_backward
-    @num_station -= 1
-    @current_station = @route_train[@num_station]
-    @prev_station = @route_train[@num_station-1]
-    @next_station = @route_train[@num_station+1]
+    @current_station.send(self)
+    @route.stations[current_station_index - 1].take_train(self)
+    current_station(@route)
   end
 
   # Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
   def print_current_status
-    puts "Предыдущая станция: #{@prev_station}"
-    puts "Текущая станция: #{@current_station}"
-    puts "Следующая станция: #{@next_station}"
+    if current_station_index > 0
+      puts "Предыдущая станция: #{@route.stations[current_station_index - 1].name_station }"
+    end
+    puts "Текущая станция: #{current_station(@route).name_station}"
+    if current_station_index < @route.stations.size - 1
+    puts "Следующая станция: #{@route.stations[current_station_index + 1].name_station}"
+    end
   end
 end
