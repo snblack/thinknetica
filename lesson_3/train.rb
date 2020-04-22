@@ -46,31 +46,34 @@ class Train < Route
   # Может принимать маршрут следования (объект класса Route)
   # При назначении маршрута поезду, поезд автоматически помещается
   # на первую станцию в маршруте.
-
-  def current_station(route_obj)
+  def take_route(route_obj)
     @route = route_obj
-    # вернет текущую станцию
-    @current_station = @route.stations.find { |station| station.list_trains.include?(self) }
-    @current_station
+    @route.stations[0].take_train(self)
   end
 
+  def current_station
+    @route.stations.find { |station| station.list_trains.include?(self) }
+  end
+  # А где метод который будет принимать маршрут и ставить поезд
+  # на первую станцию этого маршрута? Если бы он был,
+  # то в этом месте не понадобился бы параметр route_obj
+
   def current_station_index
-    @current_station_index = @route.stations.index(@current_station)
-    @current_station_index
+    @route.stations.index(current_station)
   end
 
   # Может перемещаться между станциями, указанными в маршруте.
   # Перемещение возможно вперед и назад, но только на 1 станцию за раз.
   def moving_forward
-    @current_station.send(self)
-    @route.stations[current_station_index + 1].take_train(self)
-    current_station(@route)
+    @current_station_index = current_station_index
+    current_station.send(self)
+    @route.stations[@current_station_index + 1].take_train(self)
   end
 
   def moving_backward
-    @current_station.send(self)
-    @route.stations[current_station_index - 1].take_train(self)
-    current_station(@route)
+    @current_station_index = current_station_index
+    current_station.send(self)
+    @route.stations[@current_station_index - 1].take_train(self)
   end
 
   # Возвращать предыдущую станцию, текущую, следующую, на основе маршрута

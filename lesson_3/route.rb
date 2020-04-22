@@ -21,12 +21,11 @@ class Route
   end
 
   def stations
-    @stations = [@from, *@inter_stations, @to]
-    @stations
+    [@from, *@inter_stations, @to]
   end
 
 # Может выводить список всех станций по-порядку от начальной до конечной
   def print_all_station
-    @stations.each { |station| puts station.name_station }
+    stations.each { |station| puts station.name_station }
   end
 end
