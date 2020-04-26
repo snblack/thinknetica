@@ -1,4 +1,4 @@
-require "./Train.rb"
+require "./train.rb"
 
 class Station < Train
 

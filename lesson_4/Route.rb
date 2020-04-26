@@ -1,4 +1,4 @@
-require "./Station.rb"
+require "./station.rb"
 
 class Route
 
@@ -27,9 +27,9 @@ attr_reader :num
     end
 
   # Выводить список всех станций
-    def print_all_station
-        stations.each { |station| puts station.name_station }
-    end
+    # def print_all_station
+    #     stations.each { |station| puts station.name_station }
+    # end
 
     def self.search_by_num(num)
       if Route.hash.values.include?(num)

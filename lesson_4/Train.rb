@@ -1,13 +1,14 @@
-require "./Route.rb"
+require "./route.rb"
 
 class Train < Route
 
-  attr_reader :num, :speed, :wagons
+  attr_reader :num, :speed, :wagons, :type
 
-  def initialize(num)
+  def initialize(num, type)
     @num = num
     @speed = 0
     @wagons = []
+    @type = type
   end
 
   def gather_speed(speed)
@@ -22,11 +23,21 @@ class Train < Route
     if self.speed != 0
       puts 'Поезд находится в движении'
     end
+    if wagon.type == self.type
+      @wagons << wagon
+    else
+      puts 'Вагон не подходит к грузовому поезду'
+    end
   end
 
   def del_wagon(wagon)
     if self.speed != 0
       puts 'Поезд находится в движении'
+    end
+    if @wagons.include(wagon)
+      @wagons.delete(wagon)
+    else
+      puts 'Такого нет вагона у этого поезда'
     end
   end
 
@@ -92,5 +103,5 @@ class Train < Route
     trains.each { |train| hash[train] = train.num }
     hash
   end
-  
+
 end

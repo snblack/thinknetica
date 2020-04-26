@@ -1,0 +1,191 @@
+class Interface
+  attr_reader :select
+
+  def initialize
+    @stations = []
+    @routes = []
+    @trains = []
+  end
+
+  def seed
+    #seed
+    station1 = Station.new('Moscow')
+    station2 = Station.new('Smolensk')
+    station3 = Station.new('Minsk')
+
+    route1 = Route.new(station1, station3, '002')
+    route1.add_station(station2)
+
+    train1 = PassengerTrain.new('001', 'passenger')
+    train1.take_route(route1)
+    #seed
+  end
+
+  def start
+    puts 'Привет. С чем хочешь поработать?'
+
+    puts '1. Станции'
+    puts '2. Поезда'
+    puts '3. Маршруты'
+    puts '4. Выйти из программы'
+
+
+    @select = gets.chomp.to_i
+    puts "\n"
+  end
+
+  def work_with_stations
+    puts '1. Создать станцию'
+    puts '2. Посмотреть список поездов на станции'
+    @select = gets.chomp.to_i
+    puts "\n"
+  end
+
+  def create_station
+    puts 'Введите название станции'
+    name = gets.chomp
+    @stations << Station.new(name)
+    puts "Станция #{@stations.last.name_station} успешно создана"
+  end
+
+  def list_trains_on_station
+    puts 'Ввведите название станции'
+    name = gets.chomp
+    station = Station.search_by_name(name)
+    puts station.list_trains
+  end
+
+  def work_with_trains
+    puts '1. Создать поезд'
+    puts '2. Назначить маршрут поезду'
+    puts '3. Добавить вагоны к поезду'
+    puts '4. Отцепить вагоны от поезда'
+    puts '5. Переместить поезд по маршруту вперед'
+    puts '6. Переместить поезд по маршруту назад'
+
+    @select = gets.chomp.to_i
+    puts "\n"
+  end
+
+  def create_train
+    puts 'Выберите тип поезда'
+    puts '1. Пассажирский'
+    puts '2. Грузовой'
+    type_train = gets.chomp.to_i
+    puts 'Какой будет у поезда номер?'
+    num_train = gets.chomp
+
+    if type_train == 1
+      @trains << PassengerTrain.new(num_train, 'passenger')
+    elsif type_train == 2
+      @trains << CargoTrain.new(num_train, 'cargo')
+    end
+    puts "Поезд с номером #{num_train} успешно создан"
+  end
+
+  def train_take_route
+    puts 'Ввведите номер поезда'
+    num_train = gets.chomp
+    train = Train.search_by_num(num_train)
+
+    puts 'Ввведите номер маршрута'
+    num_route = gets.chomp
+    route = Route.search_by_num(num_route)
+
+    train.take_route(route)
+  end
+
+  def add_wagon
+    puts 'Введите номер поезда'
+    num_train = gets.chomp
+    train = Train.search_by_num(num_train)
+
+    train.add_wagon(Wagon.new(train.type))
+  end
+
+  def del_wagon
+    puts 'Ввведите номер поезда'
+    num_train = gets.chomp
+    train = Train.search_by_num(num_train)
+
+    if train.wagons != 0
+      train.del_wagon(train.wagons.last)
+    else
+      puts 'У поезда нет вагонов'
+    end
+  end
+
+  def moving_forward
+    puts 'Ввведите номер поезда'
+    num_train = gets.chomp
+    train = Train.search_by_num(num_train)
+
+    train.moving_forward
+  end
+
+  def moving_backward
+    puts 'Ввведите номер поезда'
+    num_train = gets.chomp
+    train = Train.search_by_num(num_train)
+
+    train.moving_backward
+  end
+  def work_with_routes
+    puts '1. Создать маршрут'
+    puts '2. Добавить станцию к маршруту'
+    puts '3. Удалить станцию из маршруту'
+    puts '4. Посмотреть список станций у маршрута'
+    @select = gets.chomp.to_i
+  end
+
+  def create_route
+    puts 'Введите название начальной станции'
+    name = gets.chomp
+    from = Station.search_by_name(name)
+
+    puts 'Введите название конечной станции'
+    name = gets.chomp
+    to = Station.search_by_name(name)
+
+    puts 'Введите номер маршрута'
+    num = gets.chomp
+
+    @routes << Route.new(from, to, num)
+    puts "Маршрут от #{from.name_station} до #{to.name_station} успешно создан"
+  end
+
+  def add_station_to_route
+    puts 'Ввведите номер маршрута'
+    num_route = gets.chomp
+    route = Route.search_by_num(num_route)
+
+    puts 'Ввведите название станции'
+    name = gets.chomp
+    station = Station.search_by_name(name)
+
+    route.add_station(station)
+  end
+
+  def del_station_from_route
+    puts 'Ввведите номер маршрута'
+    num_route = gets.chomp
+    route = Route.search_by_num(num_route)
+
+    puts 'Ввведите название станции'
+    name = gets.chomp
+    station = Station.search_by_name(name)
+
+    route.delete_station(station)
+  end
+
+  def list_station_in_route
+    puts 'Ввведите номер маршрута'
+    num_route = gets.chomp
+    route = Route.search_by_num(num_route)
+
+    self.print_all_station(route)
+  end
+  def print_all_station(route)
+      route.stations.each { |station| puts station.name_station }
+  end
+end
