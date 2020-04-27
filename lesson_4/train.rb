@@ -2,13 +2,12 @@ require "./route.rb"
 
 class Train < Route
 
-  attr_reader :num, :speed, :wagons, :type
+  attr_reader :num, :speed, :wagons
 
-  def initialize(num, type)
+  def initialize(num)
     @num = num
     @speed = 0
     @wagons = []
-    @type = type
   end
 
   def gather_speed(speed)

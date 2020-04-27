@@ -16,12 +16,14 @@ class Interface
     route1 = Route.new(station1, station3, '002')
     route1.add_station(station2)
 
-    train1 = PassengerTrain.new('001', 'passenger')
+    train1 = PassengerTrain.new('001')
     train1.take_route(route1)
     #seed
   end
 
   def start
+    loop do
+
     puts 'Привет. С чем хочешь поработать?'
 
     puts '1. Станции'
@@ -32,7 +34,61 @@ class Interface
 
     @select = gets.chomp.to_i
     puts "\n"
+
+
+
+      break if @select == 4
+
+      case @select
+      when 1
+        work_with_stations
+
+        if @select == 1
+          create_station
+
+        elsif @select == 2
+          list_trains_on_station
+        end
+
+      when 2
+        work_with_trains
+
+        if @select == 1
+          create_train
+
+        elsif @select == 2
+          train_take_route
+
+        elsif @select == 3
+          add_wagon
+
+        elsif @select == 4
+          del_wagon
+
+        elsif @select == 5
+          moving_forward
+
+        elsif @select == 6
+          moving_backward
+        end
+
+      when 3
+        work_with_routes
+
+        if @select == 1
+          create_route
+        elsif @select == 2
+          add_station_to_route
+        elsif @select == 3
+          del_station_from_route
+        elsif @select == 4
+          list_station_in_route
+        end
+      end
+    end
   end
+
+  private
 
   def work_with_stations
     puts '1. Создать станцию'
@@ -76,9 +132,9 @@ class Interface
     num_train = gets.chomp
 
     if type_train == 1
-      @trains << PassengerTrain.new(num_train, 'passenger')
+      @trains << PassengerTrain.new(num_train)
     elsif type_train == 2
-      @trains << CargoTrain.new(num_train, 'cargo')
+      @trains << CargoTrain.new(num_train)
     end
     puts "Поезд с номером #{num_train} успешно создан"
   end
@@ -183,9 +239,9 @@ class Interface
     num_route = gets.chomp
     route = Route.search_by_num(num_route)
 
-    self.print_all_station(route)
+    print_all_station(route)
   end
   def print_all_station(route)
-      route.stations.each { |station| puts station.name_station }
+    route.stations.each { |station| puts station.name_station }
   end
 end
