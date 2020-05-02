@@ -16,8 +16,8 @@ attr_reader :list_trains, :name_station
     register_instance
   end
 
-  def block(&block)
-    @list_trains.each { |train| block.call(train)}
+  def block
+    @list_trains.each { |train| yield(train)}
   end
 
   def self.all

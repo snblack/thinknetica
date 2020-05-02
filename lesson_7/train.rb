@@ -22,8 +22,8 @@ class Train < Route
     register_instance
   end
 
-  def block(&block)
-    @wagons.each {|wagon| block.call(wagon)}
+  def block
+    @wagons.each {|wagon| yield(wagon)}
   end
 
   def self.find(num)
