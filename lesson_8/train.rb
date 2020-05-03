@@ -56,9 +56,6 @@ class Train < Route
     end
   end
 
-  # Может принимать маршрут следования (объект класса Route)
-  # При назначении маршрута поезду, поезд автоматически помещается
-  # на первую станцию в маршруте.
   def take_route(route_obj)
     @route = route_obj
     @route.stations[0].take_train(self)
@@ -67,16 +64,11 @@ class Train < Route
   def current_station
     @route.stations.find { |station| station.list_trains.include?(self) }
   end
-  # А где метод который будет принимать маршрут и ставить поезд
-  # на первую станцию этого маршрута? Если бы он был,
-  # то в этом месте не понадобился бы параметр route_obj
 
   def current_station_index
     @route.stations.index(current_station)
   end
 
-  # Может перемещаться между станциями, указанными в маршруте.
-  # Перемещение возможно вперед и назад, но только на 1 станцию за раз.
   def moving_forward
     @current_station_index = current_station_index
     current_station.send(self)
@@ -89,14 +81,16 @@ class Train < Route
     @route.stations[@current_station_index - 1].take_train(self)
   end
 
-  # Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
   def print_current_status
     if current_station_index.positive?
-      puts "Предыдущая станция: #{@route.stations[current_station_index - 1].name_station}"
+      puts "Предыдущая станция:
+      #{@route.stations[current_station_index - 1].name_station}"
     end
     puts "Текущая станция: #{current_station.name_station}"
     return unless current_station_index < @route.stations.size - 1
-      puts "Следующая станция: #{@route.stations[current_station_index + 1].name_station}"
+
+    puts "Следующая станция:
+    #{@route.stations[current_station_index + 1].name_station}"
   end
 
   def self.search_by_num(num)
@@ -114,12 +108,10 @@ class Train < Route
   def validate!
     raise 'Номер поезда не задан' if num.nil?
     return unless num !~ VALID_NUM
-      raise 'Номер должен быть в таком формате: 111-АА или 111АА'
+
+    raise 'Номер должен быть в таком формате: 111-АА или 111АА'
   end
 
-  private
-
-  # используется только внутри класса
   def self.hash
     trains = ObjectSpace.each_object(Train).to_a
     hash = {}

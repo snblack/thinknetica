@@ -22,20 +22,13 @@ class Route
     [@from, *@inter_stations, @to]
   end
 
-  # Добавляет промежуточную станцию в список
   def add_station(station)
     @inter_stations << station
   end
 
-  # Удаляет промежуточную станцию из списка
   def delete_station(station)
     @inter_stations.delete(station) { 'Станция не найдена' }
   end
-
-  # Выводить список всех станций
-  # def print_all_station
-  #     stations.each { |station| puts station.name_station }
-  # end
 
   def self.search_by_num(num)
     if Route.hash.values.include?(num)
@@ -52,12 +45,9 @@ class Route
   def validate!
     raise 'Номер маршрута не задан' if num.nil?
     return unless num.size < 3 || num.size > 3
-      raise 'Номер маршрута должен состоять из 3 цифр'
+
+    raise 'Номер маршрута должен состоять из 3 цифр'
   end
-
-  private
-
-  # используется только внутри класса
 
   def self.hash
     routes = ObjectSpace.each_object(Route).to_a
