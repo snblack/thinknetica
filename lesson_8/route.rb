@@ -40,8 +40,6 @@ class Route
     end
   end
 
-  protected
-
   def validate!
     raise 'Номер маршрута не задан' if num.nil?
     return unless num.size < 3 || num.size > 3

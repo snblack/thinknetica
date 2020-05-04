@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable all
 
 class Interface
   attr_reader :select
@@ -307,3 +308,4 @@ class Interface
     route.stations.each { |station| puts station.name_station }
   end
 end
+# rubocop:enable all

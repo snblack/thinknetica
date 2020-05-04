@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+# rubocop:disable all
 require './route.rb'
 require './name_manufacturer.rb'
 require './instance_counter.rb'
@@ -119,3 +119,4 @@ class Train < Route
     hash
   end
 end
+# rubocop:enable all

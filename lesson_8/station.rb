@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+# rubocop:disable all
 require './train.rb'
 require './instance_counter.rb'
 
@@ -66,3 +66,4 @@ class Station < Train
     hash
   end
 end
+# rubocop:enable all
