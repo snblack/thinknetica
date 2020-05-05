@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-# rubocop:disable all
+
+# rubocop:disable Metrics/ClassLength
 
 class Interface
   attr_reader :select
@@ -26,6 +27,8 @@ class Interface
     train1.add_wagon(WagonPassenger.new(100))
     # seed
   end
+
+# rubocop:disable all
 
   def start
     loop do
@@ -97,6 +100,8 @@ class Interface
     end
   end
 
+# rubocop:enable all
+
   private
 
   def work_with_stations
@@ -117,7 +122,7 @@ class Interface
     puts 'Ввведите название станции'
     name = gets.chomp
     station = Station.search_by_name(name)
-    # puts station.list_trains
+
     station.block do |train|
       puts "Номер поезда: #{train.num}"
       puts "Тип поезда: #{train.type}"
@@ -141,9 +146,7 @@ class Interface
   end
 
   def create_train
-    puts 'Выберите тип поезда'
-    puts '1. Пассажирский'
-    puts '2. Грузовой'
+    puts "Выберите тип поезда \n 1. Пассажирский \n 2. Грузовой"
     type_train = gets.chomp.to_i
     puts 'Какой будет у поезда номер?'
     num_train = gets.chomp
@@ -167,7 +170,7 @@ class Interface
 
     train.take_route(route)
   end
-
+# rubocop:disable all
   def add_wagon
     puts 'Введите номер поезда'
     num_train = gets.chomp
@@ -183,6 +186,7 @@ class Interface
       train.add_wagon(WagonCargo.new(volume))
     end
   end
+# rubocop:enable all
 
   def del_wagon
     puts 'Ввведите номер поезда'
@@ -212,6 +216,7 @@ class Interface
     train.moving_backward
   end
 
+# rubocop:disable all
   def list_wagons
     puts 'Ввведите номер поезда'
     num_train = gets.chomp
@@ -247,6 +252,7 @@ class Interface
       wagon.take_volume
     end
   end
+# rubocop:enable all
 
   def work_with_routes
     puts '1. Создать маршрут'
@@ -256,6 +262,7 @@ class Interface
     @select = gets.chomp.to_i
   end
 
+# rubocop:disable all
   def create_route
     puts 'Введите название начальной станции'
     name = gets.chomp
@@ -271,6 +278,7 @@ class Interface
     @routes << Route.new(from, to, num)
     puts "Маршрут от #{from.name_station} до #{to.name_station} успешно создан"
   end
+# rubocop:enable all
 
   def add_station_to_route
     puts 'Ввведите номер маршрута'
@@ -308,4 +316,4 @@ class Interface
     route.stations.each { |station| puts station.name_station }
   end
 end
-# rubocop:enable all
+# rubocop:enable Metrics/ClassLength

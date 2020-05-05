@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-# rubocop:disable all
+
+# rubocop:disable Style/ClassVars
+
 require './train.rb'
 require './instance_counter.rb'
 
@@ -56,7 +58,8 @@ class Station < Train
 
   def validate!
     return unless name_station.size < 2
-      raise 'Имя станции должно содержать минимум 2 символа'
+
+    raise 'Имя станции должно содержать минимум 2 символа'
   end
 
   def self.hash
@@ -65,5 +68,8 @@ class Station < Train
     stations.each { |station| hash[station] = station.name_station }
     hash
   end
+
+  private_class_method :hash
 end
-# rubocop:enable all
+
+# rubocop:enable Style/ClassVars

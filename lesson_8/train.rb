@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-# rubocop:disable all
+
+# rubocop:disable Style/ClassVars
+
 require './route.rb'
 require './name_manufacturer.rb'
 require './instance_counter.rb'
@@ -81,6 +83,7 @@ class Train < Route
     @route.stations[@current_station_index - 1].take_train(self)
   end
 
+# rubocop:disable all
   def print_current_status
     if current_station_index.positive?
       puts "Предыдущая станция:
@@ -92,6 +95,7 @@ class Train < Route
     puts "Следующая станция:
     #{@route.stations[current_station_index + 1].name_station}"
   end
+# rubocop:enable all
 
   def self.search_by_num(num)
     if Train.hash.values.include?(num)
@@ -118,5 +122,6 @@ class Train < Route
     trains.each { |train| hash[train] = train.num }
     hash
   end
+  private_class_method :hash
 end
-# rubocop:enable all
+# rubocop:enable Style/ClassVars
