@@ -33,7 +33,11 @@ module Validation
     end
 
     def valid?
-      #???
+      validate_presence
+      validate_format
+      validate_type
+    rescue
+      False
     end
   end
 end
